@@ -1,0 +1,61 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+Documentation	Issue Test scenario. CRUD Operation: Create, Read, Update, Delete
+
+Pre Condition	Open Browser, login, project must be created
+Post Condition	log out, Close all Browsers
+Tags	Issues, TS-4-Issues
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+IssuesUrl= https://gitlab.com/group5285148/project5/-/issues/new
+IssueTitle= Issuetest
+NewIssueTitle= Newissue
+Empty= 
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Test examples are below write test process steps for each below test case
+
+Create new Issue
+    Navigate To Issues Page  IssuesUrl
+    Input Title  IssueTitle
+    Submit Issue Form
+    Verify Page Should Contain Issue created just now
+
+Update name of issue
+    Navigate To Issues Page  IssuesUrl
+	Press edit button
+    Input new Title  NewIssueTitle
+    Submit Issue Form
+    Verify Page Should Contain changed title from Issuetest to Newissue just now
+
+Create second issue with privious updated name
+    Navigate To Issues Page  IssuesUrl
+    Input Title  NewIssueTitle
+    Submit Issue Form
+    Verify Page Should Contain Issue created just now
+
+Delete first issue
+    Navigate To Issues Page  IssuesUrl
+    Navigate to icon of three dots
+    Press delete issue
+	Verify deleting event
+    Verify Page Should Contain The issue was successfully deleted
+
+
+# Negative Tests
+
+Create issue with invalid credential
+    Navigate To Issues Page  IssuesUrl
+    Input Title  Empty
+    Submit Issue Form
+    Verify that Error message should show This field is required

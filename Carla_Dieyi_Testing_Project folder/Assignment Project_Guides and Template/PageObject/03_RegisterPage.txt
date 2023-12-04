@@ -1,0 +1,89 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Testing the register page functionality. Register Test scenario with valid and invalid credentials.
+
+Pre Condition	Open Browser
+Post Condition	Close all Browsers
+Tags	Sing up, TS-2-Sing up
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+RegisterUrl = https://gitlab.com/users/sign_up
+First_Name= Tero
+Last_Name= Muuranen
+UserName= Tero_Muuranen
+Email= tero.muuranen@gmail.fi
+Password= Gjsos12w@
+Invalid_UserName= tero@
+Invalid_Email= ter.muur@
+Invalid_Password= Gkdms
+Empty=
+
+#******************** Test Cases *************************
+
+*** Test Cases ***
+
+# Positive Tests
+
+Register Page With Valid Credential
+	Navigate To Register Page  RegisterUrl
+	Input First name	First_Name
+	Input Last name		Last_Name
+	Input Username  	UserName
+	Input Email  		Email
+	Input Password		Password
+	Submit Register Form
+	Verify Page Should Contain Verifacation page
+
+
+# Negative Tests
+
+Register Without First Name
+	Navigate To Register Page  RegisterUrl
+	Input First name	Empty
+	Input Last name		Last_Name
+	Input Username  	UserName
+	Input Email  		Email
+	Input Password		Password
+	Submit Register Form
+	Verify That Error message shows This field is required
+
+
+Register With Invalid Username
+	Navigate To Register Page  RegisterUrl
+	Input First name	First_Name
+	Input Last name		Last_Name
+	Input Username  	Invalid_UserName
+	Input Email  		Email
+	Input Password		Password
+	Submit Register Form
+	Verify That Error message shows Only alphanumeric characters
+
+
+Register With Invalid Email
+	Navigate To Register Page  RegisterUrl
+	Input First name	First_Name
+	Input Last name		Last_Name
+	Input Username  	UserName
+	Input Email  		Invalid_Email
+	Input Password		Password
+	Submit Register Form
+	Verify That Error message shows Provide a valid email address
+
+
+Register With Invalid Password
+	Navigate To Register Page  RegisterUrl
+	Input First name	First_Name
+	Input Last name		Last_Name
+	Input Username  	UserName
+	Input Email  		Email
+	Input Password		Invalid_Password
+	Submit Register Form
+	Verify That message shows Minimum lenght is 8 characters

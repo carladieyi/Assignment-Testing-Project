@@ -1,0 +1,69 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Testing the project page functionality.
+
+Pre Condition	 Open Browser, Login
+Post Condition	Log out, Close All Browsers
+Tags	Project, TS-3-Project
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+ProjectUrl= https://gitlab.com/projects/new
+GroupUrl= https://gitlab.com/group123
+ProjectName= project5
+ProjectNameT= project4
+NewProjectName= project10
+ProjectUrl= group123
+
+#******************** Test Cases *************************
+
+*** Test Cases ***
+
+# Positive Tests
+
+Create blank project
+    Navigate To Project Page  ProjectUrl
+    Input Project name  ProjectName
+    Input Project URL	ProjectUrl
+    Submit Create project Form
+    Verify Page Should contain Project "project5" is successfully created
+
+
+Create template project with Ruby on Rails
+    Navigate To Project Page  ProjectUrl
+    Input Project name  ProjectNameT
+    Input Project URL	ProjectUrl
+    Submit Create project Form
+    Verify Page Should contain The project was successfully imported
+
+Update name of the template project
+    Navigate To Group Page  UpdateUrl
+	Choose project4
+    Navigate to the Settings
+	Change project name	 NewProjectName
+    Submit the Changes
+    Verify Page Should contain Project 'project10' was successfully updated
+
+Delete template project
+    Navigate To Group Page  UpdateUrl
+	Choose project10
+	Navigate to the Settings
+	Submit Delete this project Form
+	Verify the delete event
+    Verify Page Should contain Project 'group / project10' will be deleted on XX.XX.XXXX
+
+# Negative Tests
+
+Create blank project with the previous name
+    Navigate To Project Page  ProjectUrl
+    Input Project name  ProjectName
+    Input Project URL	ProjectUrl
+    Submit Create project Form
+    Verify Error message Name and path has already been taken
